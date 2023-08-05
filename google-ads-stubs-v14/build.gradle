@@ -1,3 +1,35 @@
 plugins {
   id 'com.google.api-ads.gapic-stubs'
 }
+   private void runExample(GoogleAdsClient googleAdsClient, long customerId) {}
+
+     // Creates a ConversionAction.
+     ConversionAction conversionAction =
+     ConversionAction.newBuilder()
+         .setName("Earth to Mars Cruises Conversion #" + getPrintableDateTime())
+         .setType(ConversionActionType.WEBPAGE)
+         .setStatus(ConversionActionStatus.ENABLED)
+         .setViewThroughLookbackWindowDays(15L)
+         .setValueSettings(
+           ValueSettings.newBuilder()
+               .setDefaultValue(23.41)
+               .setAlwaysUseDefaultValue(true)
+               .build())
+           .build();
+
+    // Creates the operation.
+      ConversionActionOperation operation =
+      ConversionActionOperation.newBuilder().setCreate(conversionAction).build();
+    
+      try (ConversionActionServiceClient conversionActionServiceClient =
+       googleAdsClient.getLatestVersion().createConversionActionServiceClient()) {
+    MutateConversionActionsResponse response =
+        conversionActionServiceClient.mutateConversionActions(
+             Long.toString(customerId), Collections.singletonList(operation));
+         System.out.printf("Added %d conversion actions:%n", response.getResultsCount());
+         for (MutateConversionActionResult result : response.getResultsList()) {
+            System.out.printf(
+              "New conversion action added with resource name: '%s'%n", result.getResourceName());
+         }
+       }
+    }
